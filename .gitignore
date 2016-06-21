@@ -1,3 +1,7 @@
+#project specific ignores
+certs
+output
+
 # Logs
 logs
 *.log
