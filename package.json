@@ -26,15 +26,11 @@
   },
   "homepage": "https://github.com/eapowertools/global-metrics-app#readme",
   "dependencies": {
-    "@qlik/enigma": "file:./enigma-0.8.2.tgz",
     "bluebird": "^3.4.1",
-    "extend": "^3.0.0",
     "fs": "0.0.2",
     "jsonfile": "^2.3.1",
     "path": "^0.12.7",
     "qsocks": "^3.0.0",
-    "serializeapp": "^2.0.0",
-    "util": "^0.10.3",
-    "ws": "^1.1.0"
+    "serializeapp": "^2.0.0"
   }
 }
