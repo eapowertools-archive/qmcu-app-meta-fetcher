@@ -17,13 +17,14 @@ function processApps() {
     var docId = appIdList[appIdIndex];
     appIdIndex++;
     // do stuff with the app
-    console.log(docId);
-    processApps();
-
-
-    
+    global.blagfkdjglfksd().then({processApps()});   
 };
 
+Promise.all(appList.map(function(app)
+{
+    return serializeapp(app).then(function(foo){fs.writefilesync(filename,foo)})
+}))
+.then(function(arrayOfresults))
 
 server.then(function(global)
         {
