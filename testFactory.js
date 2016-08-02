@@ -1,7 +1,9 @@
 var sinon = require('sinon');
+var Promise = require("bluebird");
+
 var server = require('./server');
 var qsocks = require('qsocks');
-var Promise = require("bluebird");
+var config = require('./config/config');
 
 var app1 = require('./test/app1');
 var app2 = require('./test/app2');
@@ -34,4 +36,4 @@ var qSocksConfig = new Promise(function(resolve, reject) {
 sinon.stub(qsocks, 'Connect').returns(qSocksConfig);
 
 
-var testmain = new server(qsocks);
+var testmain = new server(qsocks, config);

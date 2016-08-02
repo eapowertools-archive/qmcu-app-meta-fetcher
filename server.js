@@ -4,11 +4,10 @@ var writeHeaders = require('./lib/writeHeaders');
 //var genAppMetadata = require("./lib/genAppMetadata");
 var serializeapp = require('serializeapp');
 var server = require('./lib/connect');
-var config = require("./config/config");
 var jsonFile = require('jsonfile');
 
 
-var main = function main(qsocks){
+var main = function main(qsocks, config){
     var _global;
 
     // Create all files and write headers to files
