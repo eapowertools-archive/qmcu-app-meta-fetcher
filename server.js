@@ -1,33 +1,24 @@
 var variableData = require("./lib/getVariableData");
 var writeCSV = require("./lib/writeCSV");
+var writeHeaders = require('./lib/writeHeaders');
 //var genAppMetadata = require("./lib/genAppMetadata");
 var serializeapp = require('serializeapp');
-
-
 var server = require('./lib/connect');
+var config = require("./config/config");
+var jsonFile = require('jsonfile');
 
-var appIdList;
-var appIdIndex = 0;
 
-function processApps() {
-    if (appIdIndex >= appIdList.length)
-    {
-        return;
-    }
-    var docId = appIdList[appIdIndex];
-    appIdIndex++;
-    // do stuff with the app
-    global.blagfkdjglfksd().then({processApps()});   
-};
+var main = function main(qsocks){
+    var _global;
 
-Promise.all(appList.map(function(app)
-{
-    return serializeapp(app).then(function(foo){fs.writefilesync(filename,foo)})
-}))
-.then(function(arrayOfresults))
+    // Create all files and write headers to files
+    writeHeaders.writeAllHeaders();
 
-server.then(function(global)
+
+
+    qsocks.Connect(config).then(function(global)
         {
+            _global = global;
             return global.getDocList()
                     .then(function(docList)
                     {
@@ -39,25 +30,22 @@ server.then(function(global)
         })
         .then(function(docIds)
         {
-            appIdList = docIds;
-            processApps();
-            
-        }).catch(function(err) {
-            console.log(err);    
-    });
+            return Promise.all(docIds.map(function(app)
+            {
+                return _global.openDoc(app)
+                .then(function(app)
+                {
+                    //return serializeApp(app);
+                    return app;
+                })
+                .then(function(data)
+                {
+                    var fileDir = '/Users/jparis/Desktop/temp/';
+                    variableData.writeToFile(fileDir, data)
+                    return 0;
+                })
+            }));
+        });
+}
 
-//  server.then(function(global) {
-//     global.openDoc('6666b493-865c-445f-985c-38d90fe86224')
-//         .then(function(app) {
-//             console.log("I got here.");
-//             return serializeapp(app);
-//         })
-//         .then(function(data) {
-            
-//             variableData.writeToFile("C:/temp/", data);
-
-//             //console.log(data) // --> A JSON Object describing the app. 
-//         });     
-// }).catch(function(error) {
-//     console.log(error);
-// });
+module.exports = main;
