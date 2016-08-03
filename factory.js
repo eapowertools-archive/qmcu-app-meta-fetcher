@@ -1,5 +1,5 @@
-var server = require('./server');
+var main = require('./main');
 var qsocks = require('qsocks');
-var config = require('./config/certificatesConfig');
+var config = require('./config/runtimeConfig');
 
-var main = new server(qsocks, config);
+var main = new main(qsocks, config);
