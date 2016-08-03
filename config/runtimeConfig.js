@@ -30,6 +30,6 @@ config = extend(true, config, {
 	}
 });
 
-config['filenames']['outputDir'] =  __dirname + "/../bin/";
+config['filenames']['outputDir'] =  __dirname + "/../output/";
 
 module.exports = config;
