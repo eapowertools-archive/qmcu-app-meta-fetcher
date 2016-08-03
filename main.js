@@ -35,6 +35,12 @@ var main = function main(qsocks, config){
         {
             return Promise.all(docIds.map(function(app)
             {
+                // new connection here.
+
+
+
+
+
                 return _global.openDoc(app)
                 .then(function(app)
                 {
