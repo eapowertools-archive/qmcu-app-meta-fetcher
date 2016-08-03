@@ -1,6 +1,7 @@
-var config = require('./config')
+var config = require('./baseConfig');
 var fs = require( "fs" );
 var path = require('path');
+var extend = require('extend');
 
 var certPath = __dirname + '/../certs';
 
@@ -20,13 +21,15 @@ config = extend(true, config, {
 		port: 4747,
 		isSecure: true,
 		origin: 'https://localhost',
-		// ca: fs.readFileSync(path.resolve(certPath,'root.pem')),
-		// key: fs.readFileSync(path.resolve(certPath,'client_key.pem')),
-		// cert: fs.readFileSync(path.resolve(certPath, 'client.pem')),
+		ca: fs.readFileSync(path.resolve(certPath,'root.pem')),
+		key: fs.readFileSync(path.resolve(certPath,'client_key.pem')),
+		cert: fs.readFileSync(path.resolve(certPath, 'client.pem')),
 		headers: {
 			"X-Qlik-User": config.engine.repoAccount
 		}
 	}
 });
+
+config['filenames']['outputDir'] =  __dirname + "/../bin/";
 
 module.exports = config;

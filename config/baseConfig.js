@@ -8,7 +8,7 @@ var config = {
 
 config = extend(true, config, {
 	filenames: {
-		outputDir: "/Users/jparis/Desktop/temp/",
+		outputDir: "",
 		variables_table: "variables.csv",
 		dimensions_table: "dimensions.csv",
 		measures_table: "measures.csv"

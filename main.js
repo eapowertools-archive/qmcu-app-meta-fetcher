@@ -1,19 +1,23 @@
 var variableData = require("./lib/getVariableData");
 var writeCSV = require("./lib/writeCSV");
 var writeHeaders = require('./lib/writeHeaders');
-//var genAppMetadata = require("./lib/genAppMetadata");
 var serializeapp = require('serializeapp');
-var server = require('./lib/connect');
-var jsonFile = require('jsonfile');
+var fs = require('fs');
 
 
 var main = function main(qsocks, config){
     var _global;
 
+    try {
+        fs.mkdirSync(config.filenames.outputDir);
+    }
+    catch(err) {
+        console.log("Output folder already created.");
+    }
+    // create folder if it doesn't exist
+
     // Create all files and write headers to files
-    writeHeaders.writeAllHeaders();
-
-
+    writeHeaders.writeAllHeaders(config.filenames.outputDir);
 
     qsocks.Connect(config).then(function(global)
         {
@@ -34,12 +38,11 @@ var main = function main(qsocks, config){
                 return _global.openDoc(app)
                 .then(function(app)
                 {
-                    //return serializeApp(app);
-                    return app;
+                    return serializeApp(app);
                 })
                 .then(function(data)
                 {
-                    var fileDir = '/Users/jparis/Desktop/temp/';
+                    var filename = config.filenames.outputDir + config.filenames.variables_table;
                     variableData.writeToFile(fileDir, data)
                     return 0;
                 })

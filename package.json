@@ -29,7 +29,6 @@
     "bluebird": "^3.4.1",
     "extend": "^3.0.0",
     "fs": "0.0.2",
-    "jsonfile": "^2.3.1",
     "path": "^0.12.7",
     "qsocks": "^3.0.0",
     "serializeapp": "^2.0.0"
