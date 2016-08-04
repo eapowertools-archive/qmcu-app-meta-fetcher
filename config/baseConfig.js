@@ -11,7 +11,8 @@ config = extend(true, config, {
 		outputDir: "",
 		variables_table: "variables.csv",
 		dimensions_table: "dimensions.csv",
-		measures_table: "measures.csv"
+		measures_table: "measures.csv",
+		apps_table: "apps.csv"
 	}
 });
 

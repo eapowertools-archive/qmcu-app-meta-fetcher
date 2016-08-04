@@ -1,27 +1,30 @@
-var variableData = require("./lib/getVariableData");
-var writeCSV = require("./lib/writeCSV");
+var appMetadata = require('./lib/getAppMetadata');
+var dimensionData = require('./lib/getDimensionData');
+var measureData = require('./lib/getMeasureData');
+var variableData = require('./lib/getVariableData');
+var writeCSV = require('./lib/writeCSV');
 var writeHeaders = require('./lib/writeHeaders');
 var serializeapp = require('serializeapp');
 var fs = require('fs');
+var Promise = require('bluebird');
+var extend = require('extend');
+var serializeApp = require('serializeapp');
 
 
 var main = function main(qsocks, config){
-    var _global;
-
+    // create folder if it doesn't exist
     try {
         fs.mkdirSync(config.filenames.outputDir);
     }
     catch(err) {
         console.log("Output folder already created.");
     }
-    // create folder if it doesn't exist
 
     // Create all files and write headers to files
     writeHeaders.writeAllHeaders(config.filenames.outputDir);
 
-    qsocks.Connect(config).then(function(global)
+    qsocks.Connect(config.qsocks).then(function(global)
         {
-            _global = global;
             return global.getDocList()
                     .then(function(docList)
                     {
@@ -33,24 +36,32 @@ var main = function main(qsocks, config){
         })
         .then(function(docIds)
         {
-            return Promise.all(docIds.map(function(app)
+            return Promise.all(docIds.map(function(appId)
             {
-                // new connection here.
+                qsocksConfig = extend(true, config.qsocks, {
+                    appname: appId
+                });
 
+                return qsocks.Connect(qsocksConfig).then(function(g) {
+                    return g.openDoc(appId)
+                    .then(function(app)
+                    {
+                        return serializeApp(app);
+                    })
+                    .then(function(appData)
+                    {
+                        var appFilePath = config.filenames.outputDir + config.filenames.apps_table;
+                        appMetadata.writeToFile(appId, appFilePath, appData);
 
+                        var varFilePath = config.filenames.outputDir + config.filenames.variables_table;
+                        variableData.writeToFile(appId, varFilePath, appData);
 
-
-
-                return _global.openDoc(app)
-                .then(function(app)
-                {
-                    return serializeApp(app);
-                })
-                .then(function(data)
-                {
-                    var filename = config.filenames.outputDir + config.filenames.variables_table;
-                    variableData.writeToFile(fileDir, data)
-                    return 0;
+                        var dimFilePath = config.filenames.outputDir + config.filenames.dimensions_table;
+                        dimensionData.writeToFile(appId, dimFilePath, appData);
+                        
+                        var mesFilePath = config.filenames.outputDir + config.filenames.measures_table;
+                        measureData.writeToFile(appId, mesFilePath, appData);
+                    })
                 })
             }));
         });
