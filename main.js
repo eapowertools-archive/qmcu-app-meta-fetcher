@@ -1,15 +1,17 @@
+var extend = require('extend');
+var fs = require('fs');
+var Promise = require('bluebird');
+var serializeApp = require('serializeapp');
+
 var appMetadata = require('./lib/getAppMetadata');
 var dimensionData = require('./lib/getDimensionData');
 var measureData = require('./lib/getMeasureData');
-var variableData = require('./lib/getVariableData');
-var writeCSV = require('./lib/writeCSV');
-var writeHeaders = require('./lib/writeHeaders');
-var serializeapp = require('serializeapp');
-var fs = require('fs');
-var Promise = require('bluebird');
-var extend = require('extend');
-var serializeApp = require('serializeapp');
+var sheetData = require('./lib/getSheetData');
 var stringExtensions = require('./lib/stringExtensions');
+var variableData = require('./lib/getVariableData');
+var visualizationData = require('./lib/getVisualizationData');
+var writeHeaders = require('./lib/writeHeaders');
+
 
 
 var main = function main(qsocks, config){
@@ -55,6 +57,12 @@ var main = function main(qsocks, config){
                     {
                         var appFilePath = config.filenames.outputDir + config.filenames.apps_table;
                         appMetadata.writeToFile(appId, appFilePath, appData);
+
+                        var sheetFilePath = config.filenames.outputDir + config.filenames.sheets_table;
+                        sheetData.writeToFile(appId, sheetFilePath, appData);
+
+                        var visualizationFilePath = config.filenames.outputDir + config.filenames.visualizations_table;
+                        visualizationData.writeToFile(visualizationFilePath, appData);
 
                         var varFilePath = config.filenames.outputDir + config.filenames.variables_table;
                         variableData.writeToFile(appId, varFilePath, appData);

@@ -12,7 +12,9 @@ config = extend(true, config, {
 		variables_table: "variables.csv",
 		dimensions_table: "dimensions.csv",
 		measures_table: "measures.csv",
-		apps_table: "apps.csv"
+		apps_table: "apps.csv",
+		sheets_table: "sheets.csv",
+		visualizations_table: "visualizations.csv"
 	}
 });
 
