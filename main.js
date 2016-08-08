@@ -9,9 +9,12 @@ var fs = require('fs');
 var Promise = require('bluebird');
 var extend = require('extend');
 var serializeApp = require('serializeapp');
+var stringExtensions = require('./lib/stringExtensions');
 
 
 var main = function main(qsocks, config){
+    stringExtensions();
+    
     // create folder if it doesn't exist
     try {
         fs.mkdirSync(config.filenames.outputDir);
