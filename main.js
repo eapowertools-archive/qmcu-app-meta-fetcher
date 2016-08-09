@@ -73,6 +73,9 @@ var main = function main(qsocks, config){
                             // do dimension specific stuff
                             var visDimFilePath = config.filenames.outputDir + config.filenames.visualizationsDimensions_table;
                             dimensionData.writeLinkTableToFile(app, visDimFilePath, appData);
+
+                            var visMeasureFilePath = config.filenames.outputDir + config.filenames.visualizationsMeasures_table;
+                            measureData.writeLinkTableToFile(app, visMeasureFilePath, appData);
                         });
                     })
                 })
