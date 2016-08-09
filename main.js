@@ -51,6 +51,9 @@ var main = function main(qsocks, config){
                     return g.openDoc(appId)
                     .then(function(app)
                     {
+                        // do dimension specific stuff
+                        //blahblah balh
+
                         return serializeApp(app);
                     })
                     .then(function(appData)
