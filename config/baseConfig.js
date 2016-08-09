@@ -14,7 +14,9 @@ config = extend(true, config, {
 		measures_table: "measures.csv",
 		apps_table: "apps.csv",
 		sheets_table: "sheets.csv",
-		visualizations_table: "visualizations.csv"
+		visualizations_table: "visualizations.csv",
+		visualizationsDimensions_table: "visualizations_dimensions.csv",
+		visualizationsMeasures_table: "visualizations_measures.csv"
 	}
 });
 
