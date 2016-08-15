@@ -65,10 +65,10 @@ var main = function main(qsocks, config){
                             variableData.writeToFile(appId, varFilePath, appData);
 
                             var dimFilePath = config.filenames.outputDir + config.filenames.dimensions_table;
-                            dimensionData.writeToFile(appId, dimFilePath, appData);
+                            dimensionData.writeToFile(dimFilePath, appData);
                             
                             var mesFilePath = config.filenames.outputDir + config.filenames.measures_table;
-                            measureData.writeToFile(appId, mesFilePath, appData);
+                            measureData.writeToFile(mesFilePath, appData);
 
                             // do dimension specific stuff
                             var visDimFilePath = config.filenames.outputDir + config.filenames.visualizationsDimensions_table;
