@@ -33,7 +33,17 @@ var qSocksConfig = new Promise(function(resolve, reject) {
 });
 
 
+var serializeAppResult = new Promise(function(resolve, reject) {
+    resolve(app1);
+});
+
+
 sinon.stub(qsocks, 'Connect').returns(qSocksConfig);
 
+var serializeApp = function(appToSerialize) {
+    return new Promise(function(resolve, reject) {
+        resolve(app1);
+    });
+};
 
-var testmain = new main(qsocks, config);
+var testmain = new main(qsocks, serializeApp, config);

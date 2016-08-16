@@ -1,7 +1,6 @@
 var extend = require('extend');
 var fs = require('fs');
 var Promise = require('bluebird');
-var serializeApp = require('serializeapp');
 
 var appMetadata = require('./lib/getAppMetadata');
 var dimensionData = require('./lib/getDimensionData');
@@ -14,7 +13,7 @@ var writeHeaders = require('./lib/writeHeaders');
 
 
 
-var main = function main(qsocks, config){
+var main = function main(qsocks, serializeApp, config){
     stringExtensions();
     
     // create folder if it doesn't exist

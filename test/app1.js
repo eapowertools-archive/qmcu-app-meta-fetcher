@@ -1,5 +1,12 @@
 var app = {
     qId: '96847095-2632-4671-822f-f54fa7dca41f',
+    properties: {
+        qTitle: 'App Title',
+        modifiedDate: '2016-01-01T00:00:00.000Z',
+        published: false,
+        publishedDate: '1753-01-01T00:00:00.000Z'
+    },
+    sheets: [],
     variables: [
         {
             qInfo: {
@@ -52,7 +59,8 @@ var app = {
                 tags: "tag12"
             }
         }
-    ]
+    ],
+    dimensions: []
 };
 
 module.exports = app;
