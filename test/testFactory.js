@@ -1,12 +1,12 @@
 var sinon = require('sinon');
 var Promise = require("bluebird");
 
-var main = require('./main');
+var main = require('../main');
 var qsocks = require('qsocks');
-var config = require('./config/testConfig');
+var config = require('../config/testConfig');
 
-var app1 = require('./test/app1');
-var app2 = require('./test/app2');
+var app1 = require('./app1');
+var app2 = require('./app2');
 
 
 
