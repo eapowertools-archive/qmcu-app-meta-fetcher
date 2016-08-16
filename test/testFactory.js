@@ -1,12 +1,12 @@
 var sinon = require('sinon');
 var Promise = require("bluebird");
 
-var main = require('./main');
+var main = require('../main');
 var qsocks = require('qsocks');
-var config = require('./config/testConfig');
+var config = require('../config/testConfig');
 
-var app1 = require('./test/app1');
-var app2 = require('./test/app2');
+var app1 = require('./app1');
+var app2 = require('./app2');
 
 
 
@@ -33,7 +33,17 @@ var qSocksConfig = new Promise(function(resolve, reject) {
 });
 
 
+var serializeAppResult = new Promise(function(resolve, reject) {
+    resolve(app1);
+});
+
+
 sinon.stub(qsocks, 'Connect').returns(qSocksConfig);
 
+var serializeApp = function(appToSerialize) {
+    return new Promise(function(resolve, reject) {
+        resolve(app1);
+    });
+};
 
-var testmain = new main(qsocks, config);
+var testmain = new main(qsocks, serializeApp, config);
