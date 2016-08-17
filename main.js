@@ -50,7 +50,7 @@ var main = function main(qsocks, serializeApp, config){
                     return g.openDoc(appId)
                     .then(function(app)
                     {
-                        serializeApp(app).then(function(appData) {
+                        return serializeApp(app).then(function(appData) {
                             var appFilePath = config.filenames.outputDir + config.filenames.apps_table;
                             appMetadata.writeToFile(appId, appFilePath, appData);
 
@@ -75,6 +75,8 @@ var main = function main(qsocks, serializeApp, config){
 
                             var visMeasureFilePath = config.filenames.outputDir + config.filenames.visualizationsMeasures_table;
                             measureData.writeLinkTableToFile(app, visMeasureFilePath, appData);
+
+                            return;
                         });
                     })
                 })
