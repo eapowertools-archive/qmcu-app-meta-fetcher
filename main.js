@@ -10,10 +10,12 @@ var stringExtensions = require('./lib/stringExtensions');
 var variableData = require('./lib/getVariableData');
 var visualizationData = require('./lib/getVisualizationData');
 var writeHeaders = require('./lib/writeHeaders');
+var customPropertyDefinitions = require('./lib/getCustomPropertyDefinitions');
+var entityCustomPropertyValues = require('./lib/getCustomPropertiesForEntity');
 
 
 
-var main = function main(qsocks, serializeApp, config){
+var main = function main(qsocks, serializeApp, qrsInteract, config){
     stringExtensions();
     
     // create folder if it doesn't exist
@@ -26,6 +28,13 @@ var main = function main(qsocks, serializeApp, config){
 
     // Create all files and write headers to files
     writeHeaders.writeAllHeaders(config.filenames.outputDir);
+
+    // write custom property definitions
+    var customPropertyDefinitionPath = config.filenames.outputDir + config.filenames.customPropertyDefinitions_table;
+    customPropertyDefinitions.writeToFile(qrsInteract, customPropertyDefinitionPath);
+
+    var customPropertiesPath = config.filenames.outputDir + config.filenames.entityCustomPropertyMap_table;
+    entityCustomPropertyValues.writeToFile(qrsInteract, "app", customPropertiesPath);
 
     qsocks.Connect(config.qsocks).then(function(global)
         {
