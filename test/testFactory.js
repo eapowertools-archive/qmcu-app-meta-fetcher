@@ -46,4 +46,10 @@ var serializeApp = function(appToSerialize) {
     });
 };
 
-var testmain = new main(qsocks, serializeApp, config);
+var qrsInteract = {
+    Get: function(endpoint) {
+         return Promise.resolve([]);
+    }
+};
+
+var testmain = new main(qsocks, serializeApp, qrsInteract, config);
