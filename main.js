@@ -60,30 +60,30 @@ var main = function main(qsocks, serializeApp, qrsInteract, config){
                     .then(function(app)
                     {
                         serializeApp(app).then(function(appData) {
-                            // var appFilePath = config.filenames.outputDir + config.filenames.apps_table;
-                            // appMetadata.writeToFile(appId, appFilePath, appData);
+                            var appFilePath = config.filenames.outputDir + config.filenames.apps_table;
+                            appMetadata.writeToFile(appId, appFilePath, appData);
 
-                            // var sheetFilePath = config.filenames.outputDir + config.filenames.sheets_table;
-                            // sheetData.writeToFile(appId, sheetFilePath, appData);
+                            var sheetFilePath = config.filenames.outputDir + config.filenames.sheets_table;
+                            sheetData.writeToFile(appId, sheetFilePath, appData);
 
-                            // var visualizationFilePath = config.filenames.outputDir + config.filenames.visualizations_table;
-                            // visualizationData.writeToFile(visualizationFilePath, appData);
+                            var visualizationFilePath = config.filenames.outputDir + config.filenames.visualizations_table;
+                            visualizationData.writeToFile(visualizationFilePath, appData);
 
-                            // var varFilePath = config.filenames.outputDir + config.filenames.variables_table;
-                            // variableData.writeToFile(appId, varFilePath, appData);
+                            var varFilePath = config.filenames.outputDir + config.filenames.variables_table;
+                            variableData.writeToFile(appId, varFilePath, appData);
 
-                            // var dimFilePath = config.filenames.outputDir + config.filenames.dimensions_table;
-                            // dimensionData.writeToFile(appId, dimFilePath, appData);
+                            var dimFilePath = config.filenames.outputDir + config.filenames.dimensions_table;
+                            dimensionData.writeToFile(appId, dimFilePath, appData);
                             
-                            // var mesFilePath = config.filenames.outputDir + config.filenames.measures_table;
-                            // measureData.writeToFile(appId, mesFilePath, appData);
+                            var mesFilePath = config.filenames.outputDir + config.filenames.measures_table;
+                            measureData.writeToFile(appId, mesFilePath, appData);
 
-                            // // do dimension specific stuff
-                            // var visDimFilePath = config.filenames.outputDir + config.filenames.visualizationsDimensions_table;
-                            // dimensionData.writeLinkTableToFile(app, visDimFilePath, appData);
+                            // do dimension specific stuff
+                            var visDimFilePath = config.filenames.outputDir + config.filenames.visualizationsDimensions_table;
+                            dimensionData.writeLinkTableToFile(app, visDimFilePath, appData);
 
-                            // var visMeasureFilePath = config.filenames.outputDir + config.filenames.visualizationsMeasures_table;
-                            // measureData.writeLinkTableToFile(app, visMeasureFilePath, appData);
+                            var visMeasureFilePath = config.filenames.outputDir + config.filenames.visualizationsMeasures_table;
+                            measureData.writeLinkTableToFile(app, visMeasureFilePath, appData);
                         });
                     })
                 })
