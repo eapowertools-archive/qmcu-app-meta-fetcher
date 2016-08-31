@@ -16,7 +16,9 @@ config = extend(true, config, {
 		sheets_table: "sheets.csv",
 		visualizations_table: "visualizations.csv",
 		visualizationsDimensions_table: "visualizations_dimensions.csv",
-		visualizationsMeasures_table: "visualizations_measures.csv"
+		visualizationsMeasures_table: "visualizations_measures.csv",
+		customPropertyDefinitions_table: "customPropertyDefinitions.csv",
+		entityCustomPropertyMap_table: "entity_customProperty.csv"
 	}
 });
 
