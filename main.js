@@ -3,8 +3,7 @@ var fs = require('fs');
 var Promise = require('bluebird');
 
 var appMetadata = require('./lib/getAppMetadata');
-var dimensionData = require('./lib/getDimensionData');
-var measureData = require('./lib/getMeasureData');
+var masterMetricsData = require('./lib/getMasterMetricsData');
 var sheetData = require('./lib/getSheetData');
 var stringExtensions = require('./lib/stringExtensions');
 var variableData = require('./lib/getVariableData');
@@ -12,6 +11,7 @@ var visualizationData = require('./lib/getVisualizationData');
 var writeHeaders = require('./lib/writeHeaders');
 var customPropertyDefinitions = require('./lib/getCustomPropertyDefinitions');
 var entityCustomPropertyValues = require('./lib/getCustomPropertiesForEntity');
+var nonMasterMetricsData = require('./lib/getNonMasterItemMetrics');
 
 
 
@@ -72,18 +72,17 @@ var main = function main(qsocks, serializeApp, qrsInteract, config){
                             var varFilePath = config.filenames.outputDir + config.filenames.variables_table;
                             variableData.writeToFile(appId, varFilePath, appData);
 
-                            var dimFilePath = config.filenames.outputDir + config.filenames.dimensions_table;
-                            dimensionData.writeToFile(appId, dimFilePath, appData);
-                            
-                            var mesFilePath = config.filenames.outputDir + config.filenames.measures_table;
-                            measureData.writeToFile(appId, mesFilePath, appData);
+                            // master items
+                            var masterMetricsFilePath = config.filenames.outputDir + config.filenames.masterMetrics_table;
+                            masterMetricsData.writeToFile(appId, masterMetricsFilePath, appData);
 
-                            // do dimension specific stuff
-                            var visDimFilePath = config.filenames.outputDir + config.filenames.visualizationsDimensions_table;
-                            dimensionData.writeLinkTableToFile(app, visDimFilePath, appData);
+                            // non master item metrics
+                            var nonMasterMetricsFilePath = config.filenames.outputDir + config.filenames.nonMasterMetrics_table;
+                            nonMasterMetricsData.writeToFile(nonMasterMetricsFilePath, appData);
 
-                            var visMeasureFilePath = config.filenames.outputDir + config.filenames.visualizationsMeasures_table;
-                            measureData.writeLinkTableToFile(app, visMeasureFilePath, appData);
+                            // do metrics linking
+                            var visMasterMetricsFilePath = config.filenames.outputDir + config.filenames.visualizationsMasterMetrics_table;
+                            masterMetricsData.writeLinkTableToFile(app, visMasterMetricsFilePath, appData);
 
                             return;
                         });
