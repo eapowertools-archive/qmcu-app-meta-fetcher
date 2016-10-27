@@ -18,7 +18,8 @@ config = extend(true, config, {
 		visualizationsDimensions_table: "visualizations_dimensions.csv",
 		visualizationsMeasures_table: "visualizations_measures.csv",
 		customPropertyDefinitions_table: "customPropertyDefinitions.csv",
-		entityCustomPropertyMap_table: "entity_customProperty.csv"
+		entityCustomPropertyMap_table: "entity_customProperty.csv",
+		nonMasterMetrics_table: "nonMasterMetrics.csv"
 	}
 });
 

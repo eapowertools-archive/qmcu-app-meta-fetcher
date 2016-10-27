@@ -12,6 +12,7 @@ var visualizationData = require('./lib/getVisualizationData');
 var writeHeaders = require('./lib/writeHeaders');
 var customPropertyDefinitions = require('./lib/getCustomPropertyDefinitions');
 var entityCustomPropertyValues = require('./lib/getCustomPropertiesForEntity');
+var nonMasterMetricsData = require('./lib/getNonMasterItemMetrics');
 
 
 
@@ -77,6 +78,10 @@ var main = function main(qsocks, serializeApp, qrsInteract, config){
                             
                             var mesFilePath = config.filenames.outputDir + config.filenames.measures_table;
                             measureData.writeToFile(appId, mesFilePath, appData);
+
+                            // non master item metrics
+                            var nonMasterMetricsFilePath = config.filenames.outputDir + config.filenames.nonMasterMetrics_table;
+                            nonMasterMetricsData.writeToFile(nonMasterMetricsFilePath, appData);
 
                             // do dimension specific stuff
                             var visDimFilePath = config.filenames.outputDir + config.filenames.visualizationsDimensions_table;
