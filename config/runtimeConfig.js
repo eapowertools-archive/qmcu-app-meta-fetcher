@@ -20,7 +20,7 @@ config = extend(true, config, {
 		host: 'selun-eps.qliktech.com',
 		port: 4747,
 		isSecure: true,
-		origin: 'https://localhost',
+		rejectUnauthorized: false,
 		ca: fs.readFileSync(path.resolve(certPath,'root.pem')),
 		key: fs.readFileSync(path.resolve(certPath,'client_key.pem')),
 		cert: fs.readFileSync(path.resolve(certPath, 'client.pem')),
