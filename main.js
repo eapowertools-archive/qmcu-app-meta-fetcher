@@ -61,7 +61,7 @@ var main = function main(qsocks, serializeApp, qrsInteract, config){
                     {
                         return serializeApp(app).then(function(appData) {
                             var appFilePath = config.filenames.outputDir + config.filenames.apps_table;
-                            appMetadata.writeToFile(appId, appFilePath, appData);
+                            appMetadata.writeToFile(qrsInteract, appId, appFilePath, appData);
 
                             var sheetFilePath = config.filenames.outputDir + config.filenames.sheets_table;
                             sheetData.writeToFile(appId, sheetFilePath, appData);
