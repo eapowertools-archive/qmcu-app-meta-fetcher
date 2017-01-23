@@ -1,3 +1,2 @@
-test:
-  override:
-    - node appMetaFetcher/oldCode/test/testFactory.js
+general:
+  build_dir: appMetaFetcher
