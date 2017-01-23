@@ -1,0 +1,41 @@
+.appMetaFetcher .navbar-fixed-top
+{
+    margin-left:250px;
+}
+
+.appMetaFetcher #page-content-header {
+    background:#404040;
+    top:0;
+    height:69px;
+    width:100%;
+    line-height: 69px;
+    z-index:1000;
+}
+
+.appMetaFetcher #page-content-body {
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+.appMetaFetcher #page-content-footer {
+   position:fixed;
+   bottom:0px;
+   height:50px;
+   width:100%;
+   background: #8C8C8C;
+}
+
+.appMetaFetcher #button-bar {
+  position: absolute;
+  top: 50%;
+  left:10px;
+  transform: translateY(-50%);
+}
+
+.appMetaFetcher .title {
+    color: rgba(255,255,255,0.8);
+    float:left;
+    font-size: 36px;
+    margin-top:15px;
+    padding-left:15px;
+}
