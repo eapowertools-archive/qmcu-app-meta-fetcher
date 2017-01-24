@@ -23,11 +23,11 @@
         ],
         "tasks": [{
             "taskName": "deploy",
-            "args": ["deploy.bat"],
+            "args": ["deployScripts/deploy_osx.sh"],
             "isBuildCommand": true
         }, {
             "taskName": "copyNPMPackages",
-            "args": ["copyNPMPackages.bat"]
+            "args": ["deployScripts/copyNPMPackages_osx.sh"]
         }]
     },
     "isShellCommand": true,
