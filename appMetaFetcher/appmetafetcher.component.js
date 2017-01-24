@@ -4,7 +4,7 @@
 
     function appMetaFetcherBodyController($scope, $http, ngDialog) {
         var model = this;
-      
+        model.statusOutput = 'This is test output.';
     }
 
     module.component("appMetaFetcherBody", {

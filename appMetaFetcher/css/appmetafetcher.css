@@ -39,3 +39,22 @@
     margin-top:15px;
     padding-left:15px;
 }
+
+.appMetaFetcher #left {
+    width:48%;
+    float:left;
+    margin-right:1%;
+    margin-left:1%;
+}
+
+.appMetaFetcher #right {
+    width:48%;
+    float:right;
+    margin-right:1%;
+    margin-left:1%;
+}
+
+.appMetaFetcher .panel-heading {
+    background-color: #535D5A;
+    border-color: #535D5A;
+}
