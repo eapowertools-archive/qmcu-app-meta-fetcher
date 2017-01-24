@@ -4,7 +4,14 @@
 
     function appMetaFetcherBodyController($scope, $http, ngDialog) {
         var model = this;
-      
+        model.statusOutput = 'This is test output.';
+
+        model.triggerMetaFetcher = function (){
+            // validate path
+            // send request to start
+            // if response == already started, return failed
+            // else print started
+        };
     }
 
     module.component("appMetaFetcherBody", {
