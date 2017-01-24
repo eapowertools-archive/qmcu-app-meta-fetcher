@@ -12,6 +12,15 @@
             // if response == already started, return failed
             // else print started
         };
+
+        model.openHelp = function () {
+            ngDialog.open({
+                template: "plugins/appMetaFetcher/help-dialog.html",
+                className: "help-dialog",
+                controller: appMetaFetcherBodyController,
+                scope: $scope
+            });
+        };
     }
 
     module.component("appMetaFetcherBody", {
