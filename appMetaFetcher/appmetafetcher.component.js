@@ -1,12 +1,18 @@
 (function () {
     "use strict";
-    var module = angular.module("QMCUtilities", ["ngDialog"])
+    var module = angular.module("QMCUtilities", ["ngDialog"]);
 
     function appMetaFetcherBodyController($scope, $http, ngDialog) {
+
         var model = this;
         model.statusOutput = 'This is test output.';
 
-        model.triggerMetaFetcher = function (){
+        model.isTriggerButtonValid = function () {
+            return true;
+        }
+
+        model.triggerMetaFetcher = function () {
+            var blah = mySocket;
             // validate path
             // send request to start
             // if response == already started, return failed

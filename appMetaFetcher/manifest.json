@@ -1,5 +1,6 @@
 {
     "title":"App Meta Fetcher",
     "pluginDir": "appMetaFetcher",
-    "stage": "alpha"
+    "stage": "alpha",
+    "useSocketIO": true
 }
