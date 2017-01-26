@@ -9,8 +9,6 @@ var socket = require('socket.io-client')('https://localhost:9945', {
     reconnect: true
 });
 
-socket.emit("appMetaFetcher", "This is my app metaFetcher message.");
-
 var parseUrlencoded = bodyParser.urlencoded({
     extended: false
 });
@@ -20,5 +18,30 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({
     extended: true
 }));
+
+var isRunning = false;
+
+router.route('/fetch')
+    .post(parseUrlencoded, function (request, response) {
+        if (isRunning) {
+            socket.emit("appMetaFetcher", "\nGMA export is already running, please wait for it to finish before triggering a new export.\n\n");
+            response.sendStatus(403);
+            return;
+        }
+        isRunning = true;
+        var exportPath = request.body.exportPath;
+
+        // check to make sure path is valid.
+
+
+
+        socket.emit("appMetaFetcher", "Starting export of all metadata");
+        setTimeout(function () {
+            socket.emit("appMetaFetcher", "Done!");
+            isRunning = false;
+        }, 3000);
+        response.sendStatus(202);
+        return;
+    });
 
 module.exports = router;

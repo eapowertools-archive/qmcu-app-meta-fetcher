@@ -2,35 +2,26 @@
     "use strict";
     var module = angular.module("QMCUtilities", ["ngDialog", "btford.socket-io"])
         .factory('mySocket', function (socketFactory) {
-            var myIoSocket = io.connect('https://localhost:9945', {secure: true, reconnect: true});
-
-            var mySocket = socketFactory({
-                ioSocket: myIoSocket
-            });
-
-            return mySocket;
+            return socketFactory();
         });
 
     function appMetaFetcherBodyController($scope, $http, ngDialog, mySocket) {
-
-        mySocket.on("appMetaFetcher", function(msg) {
-            model.statusOutput += msg +"\n";
-        });
-
         var model = this;
-        model.statusOutput = 'This is test output.';
+        model.statusOutput = '';
+
+        mySocket.on("appMetaFetcher", function (msg) {
+            model.statusOutput += msg + "\n";
+        });
 
         model.isTriggerButtonValid = function () {
             return true;
         }
 
         model.triggerMetaFetcher = function () {
-            var blah = mySocket;
-            mySocket.emit("appMetaFetcher", "blah blah blah");
-            // validate path
-            // send request to start
-            // if response == already started, return failed
-            // else print started
+            $http.post('/appmetafetcher/fetch', {
+                "exportPath": "somePath"
+            });
+            return;
         };
 
         model.openHelp = function () {
