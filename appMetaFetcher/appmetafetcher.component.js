@@ -1,8 +1,21 @@
 (function () {
     "use strict";
-    var module = angular.module("QMCUtilities", ["ngDialog"]);
+    var module = angular.module("QMCUtilities", ["ngDialog", "btford.socket-io"])
+        .factory('mySocket', function (socketFactory) {
+            var myIoSocket = io.connect('https://localhost:9945', {secure: true, reconnect: true});
 
-    function appMetaFetcherBodyController($scope, $http, ngDialog) {
+            var mySocket = socketFactory({
+                ioSocket: myIoSocket
+            });
+
+            return mySocket;
+        });
+
+    function appMetaFetcherBodyController($scope, $http, ngDialog, mySocket) {
+
+        mySocket.on("appMetaFetcher", function(msg) {
+            model.statusOutput += msg +"\n";
+        });
 
         var model = this;
         model.statusOutput = 'This is test output.';
@@ -13,6 +26,7 @@
 
         model.triggerMetaFetcher = function () {
             var blah = mySocket;
+            mySocket.emit("appMetaFetcher", "blah blah blah");
             // validate path
             // send request to start
             // if response == already started, return failed
@@ -33,7 +47,7 @@
         transclude: true,
         templateUrl: "plugins/appMetaFetcher/app-meta-fetcher-body.html",
         controllerAs: "model",
-        controller: ["$scope", "$http", "ngDialog", appMetaFetcherBodyController]
+        controller: ["$scope", "$http", "ngDialog", "mySocket", appMetaFetcherBodyController]
     });
 
 }());
