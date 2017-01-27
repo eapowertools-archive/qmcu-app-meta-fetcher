@@ -2,6 +2,7 @@ var bodyParser = require('body-parser');
 var config = require('./config');
 var express = require('express');
 var fs = require('fs');
+fs.access = fs.access || require('path').access;
 var promise = require('bluebird');
 var qrsInteract = require('qrs-interact');
 var socket = require('socket.io-client')('https://localhost:9945', {
@@ -31,17 +32,21 @@ router.route('/fetch')
         isRunning = true;
         var exportPath = request.body.exportPath;
 
-        // check to make sure path is valid.
-
-
-
-        socket.emit("appMetaFetcher", "Starting export of all metadata");
-        setTimeout(function () {
-            socket.emit("appMetaFetcher", "Done!");
+        fs.exists(exportPath, function(success) {
+            if (!success) {
+                socket.emit("appMetaFetcher", "The path '" + exportPath + "' does not exist or you do not" +
+                " have access to write to this location.");
+                response.sendStatus(400);
+            } else {
+                socket.emit("appMetaFetcher", "Starting export of all metadata");
+                setTimeout(function () {
+                    socket.emit("appMetaFetcher", "Done!");
+                }, 3000);
+                response.sendStatus(202);
+            }
             isRunning = false;
-        }, 3000);
-        response.sendStatus(202);
-        return;
+            return;
+        });
     });
 
 module.exports = router;

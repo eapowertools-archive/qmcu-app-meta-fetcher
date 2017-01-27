@@ -8,6 +8,7 @@
     function appMetaFetcherBodyController($scope, $http, ngDialog, mySocket) {
         var model = this;
         model.statusOutput = '';
+        model.exportPath = 'C:\\Program Files\\Qlik\\Sense\\EAPowerTools\\GMAOutput';
 
         mySocket.on("appMetaFetcher", function (msg) {
             model.statusOutput += msg + "\n";
@@ -19,7 +20,7 @@
 
         model.triggerMetaFetcher = function () {
             $http.post('/appmetafetcher/fetch', {
-                "exportPath": "somePath"
+                "exportPath": model.exportPath
             });
             return;
         };
