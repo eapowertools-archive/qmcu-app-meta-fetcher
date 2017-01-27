@@ -32,11 +32,12 @@ router.route('/fetch')
         isRunning = true;
         var exportPath = request.body.exportPath;
 
-        fs.exists(exportPath, function(success) {
+        fs.exists(exportPath, function (success) {
             if (!success) {
                 socket.emit("appMetaFetcher", "The path '" + exportPath + "' does not exist or you do not" +
-                " have access to write to this location.");
+                    " have access to write to this location.");
                 response.sendStatus(400);
+                isRunning = false;
             } else {
                 socket.emit("appMetaFetcher", "Starting export of all metadata");
                 setTimeout(function () {
@@ -44,7 +45,6 @@ router.route('/fetch')
                 }, 3000);
                 response.sendStatus(202);
             }
-            isRunning = false;
             return;
         });
     });
