@@ -1,14 +1,22 @@
 var bodyParser = require('body-parser');
-var config = require('./config');
+var config = require('./config/runtimeConfig');
 var express = require('express');
 var fs = require('fs');
 fs.access = fs.access || require('path').access;
 var promise = require('bluebird');
+var qsocks = require('qsocks');
+var serializeApp = require('serializeapp');
 var qrsInteract = require('qrs-interact');
+var main = require('./main');
 var socket = require('socket.io-client')('https://localhost:9945', {
     secure: true,
     reconnect: true
 });
+
+var qrsConfig = {
+    hostname: config.qsocks.host
+}
+var qrsInteractInstance = new qrsInteract(qrsConfig);
 
 var parseUrlencoded = bodyParser.urlencoded({
     extended: false
@@ -40,9 +48,11 @@ router.route('/fetch')
                 isRunning = false;
             } else {
                 socket.emit("appMetaFetcher", "Starting export of all metadata");
-                setTimeout(function () {
-                    socket.emit("appMetaFetcher", "Done!");
-                }, 3000);
+
+                // do all the things
+                config['filenames']['outputDir'] = exportPath;
+                var main = new main(qsocks, serializeApp, qrsInteractInstance, config);
+
                 response.sendStatus(202);
             }
             return;

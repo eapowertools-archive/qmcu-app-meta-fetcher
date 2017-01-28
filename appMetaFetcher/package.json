@@ -4,7 +4,7 @@
   "description": "Retrieves Master Library item metadata from Qlik Sense applications.",
   "main": "server.js",
   "scripts": {
-    "test": "node oldCode/test/testFactory.js"
+    "test": "node test/testFactory.js"
   },
   "repository": {
     "type": "git",
