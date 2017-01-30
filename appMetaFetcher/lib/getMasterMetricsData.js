@@ -7,8 +7,9 @@ var masterMetricsData = {
             this.writeMeasuresToFile(appID, filePath, appData);
         },
         writeLinkTableToFile: function(app, filePath, appData){
-            this.writeDimensionLinksToFile(app, filePath, appData);
-            this.writeMeasureLinksToFile(app, filePath, appData);
+            var dimLinkPromise = this.writeDimensionLinksToFile(app, filePath, appData);
+            var measureLinkPromise = this.writeMeasureLinksToFile(app, filePath, appData);
+            return Promise.all([dimLinkPromise, measureLinkPromise]);
         },
 
         writeMeasureLinksToFile: function(app, filePath, appData){
@@ -18,10 +19,10 @@ var masterMetricsData = {
             measureIds.push(measure['qInfo']['qId']);
         }, this);
 
-        Promise.all(measureIds.map(function(measureId) {
+        return Promise.all(measureIds.map(function(measureId) {
             return app.getMeasure(measureId);
         })).then(function(measures) {
-            Promise.all(measures.map(function(meas){
+            return Promise.all(measures.map(function(meas){
                  return meas.getLinkedObjects();
             })).then(function(linkedMeasures){
                 for (var i = 0; i < linkedMeasures.length; i++) {

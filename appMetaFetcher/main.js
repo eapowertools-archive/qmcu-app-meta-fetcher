@@ -15,7 +15,7 @@ var nonMasterMetricsData = require('./lib/getNonMasterItemMetrics');
 
 
 
-var main = function main(qsocks, serializeApp, qrsInteract, config){
+var main = function main(qsocks, serializeApp, qrsInteract, config, socket){
     stringExtensions();
     
     // create folder if it doesn't exist
@@ -36,7 +36,7 @@ var main = function main(qsocks, serializeApp, qrsInteract, config){
     var customPropertiesPath = config.filenames.outputDir + config.filenames.entityCustomPropertyMap_table;
     entityCustomPropertyValues.writeToFile(qrsInteract, "app", customPropertiesPath);
 
-    qsocks.Connect(config.qsocks).then(function(global)
+    return qsocks.Connect(config.qsocks).then(function(global)
         {
             return global.getDocList()
                     .then(function(docList)
@@ -82,9 +82,7 @@ var main = function main(qsocks, serializeApp, qrsInteract, config){
 
                             // do metrics linking
                             var visMasterMetricsFilePath = config.filenames.outputDir + config.filenames.visualizationsMasterMetrics_table;
-                            masterMetricsData.writeLinkTableToFile(app, visMasterMetricsFilePath, appData);
-
-                            return;
+                            return masterMetricsData.writeLinkTableToFile(app, visMasterMetricsFilePath, appData);
                         });
                     })
                 })
