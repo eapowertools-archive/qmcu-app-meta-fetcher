@@ -42,8 +42,8 @@ router.route('/fetch')
 
         fs.exists(exportPath, function (success) {
             if (!success) {
-                socket.emit("appMetaFetcher", "The path '" + exportPath + "' does not exist or you do not" +
-                    " have access to write to this location.");
+                socket.emit("appMetaFetcher", "\nThe path '" + exportPath + "' does not exist or you do not" +
+                    " have access to write to this location.\n");
                 response.sendStatus(400);
                 isRunning = false;
             } else {
@@ -51,9 +51,9 @@ router.route('/fetch')
 
                 // do all the things
                 config['filenames']['outputDir'] = exportPath + '/';
-                var main = new fetcherMain(qsocks, serializeApp, qrsInteractInstance, config);
+                var main = new fetcherMain(qsocks, serializeApp, qrsInteractInstance, config, socket);
                 main.then(function () {
-                    socket.emit("appMetaFetcher", "Export done, files can be found in: '" + exportPath + "'.");
+                    socket.emit("appMetaFetcher", "Export done, files can be found in: '" + exportPath + "'.\n");
                     isRunning = false;
                 })
                 response.sendStatus(202);

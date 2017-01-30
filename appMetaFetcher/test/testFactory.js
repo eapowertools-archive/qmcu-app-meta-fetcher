@@ -53,4 +53,10 @@ var qrsInteract = {
     }
 };
 
+var socketEmitter = {
+    emit: function(name, msg) {
+        console.log(name+"::"+msg);
+    }
+}
+
 var testmain = new main(qsocks, serializeApp, qrsInteract, config);

@@ -15,14 +15,13 @@ var nonMasterMetricsData = require('./lib/getNonMasterItemMetrics');
 
 
 
-var main = function main(qsocks, serializeApp, qrsInteract, config, socket){
+var main = function main(qsocks, serializeApp, qrsInteract, config, socket) {
     stringExtensions();
-    
+
     // create folder if it doesn't exist
     try {
         fs.mkdirSync(config.filenames.outputDir);
-    }
-    catch(err) {
+    } catch (err) {
         console.log("Output folder already created.");
     }
 
@@ -36,55 +35,54 @@ var main = function main(qsocks, serializeApp, qrsInteract, config, socket){
     var customPropertiesPath = config.filenames.outputDir + config.filenames.entityCustomPropertyMap_table;
     entityCustomPropertyValues.writeToFile(qrsInteract, "app", customPropertiesPath);
 
-    return qsocks.Connect(config.qsocks).then(function(global)
-        {
+    return qsocks.Connect(config.qsocks).then(function (global) {
             return global.getDocList()
-                    .then(function(docList)
-                    {
-                        return docList.map(function(doc)
-                        {
-                            return doc.qDocId;
-                        });
+                .then(function (docList) {
+                    return docList.map(function (doc) {
+                        return doc.qDocId;
                     });
+                });
         })
-        .then(function(docIds)
-        {
-            return Promise.all(docIds.map(function(appId)
-            {
+        .then(function (docIds) {
+            var finishedApps = 0;
+            return Promise.all(docIds.map(function (appId, index, originalArray) {
+                socket.emit("appMetaFetcher", "Started processing app " + (index+1) + " of " + originalArray.length + ".");
+
                 qsocksConfig = extend(true, config.qsocks, {
                     appname: appId
                 });
-
-                return qsocks.Connect(qsocksConfig).then(function(g) {
+                return qsocks.Connect(qsocksConfig).then(function (g) {
                     return g.openDoc(appId)
-                    .then(function(app)
-                    {
-                        return serializeApp(app).then(function(appData) {
-                            var appFilePath = config.filenames.outputDir + config.filenames.apps_table;
-                            appMetadata.writeToFile(appId, appFilePath, appData);
+                        .then(function (app) {
+                            return serializeApp(app).then(function (appData) {
+                                var appFilePath = config.filenames.outputDir + config.filenames.apps_table;
+                                appMetadata.writeToFile(appId, appFilePath, appData);
 
-                            var sheetFilePath = config.filenames.outputDir + config.filenames.sheets_table;
-                            sheetData.writeToFile(appId, sheetFilePath, appData);
+                                var sheetFilePath = config.filenames.outputDir + config.filenames.sheets_table;
+                                sheetData.writeToFile(appId, sheetFilePath, appData);
 
-                            var visualizationFilePath = config.filenames.outputDir + config.filenames.visualizations_table;
-                            visualizationData.writeToFile(visualizationFilePath, appData);
+                                var visualizationFilePath = config.filenames.outputDir + config.filenames.visualizations_table;
+                                visualizationData.writeToFile(visualizationFilePath, appData);
 
-                            var varFilePath = config.filenames.outputDir + config.filenames.variables_table;
-                            variableData.writeToFile(appId, varFilePath, appData);
+                                var varFilePath = config.filenames.outputDir + config.filenames.variables_table;
+                                variableData.writeToFile(appId, varFilePath, appData);
 
-                            // master items
-                            var masterMetricsFilePath = config.filenames.outputDir + config.filenames.masterMetrics_table;
-                            masterMetricsData.writeToFile(appId, masterMetricsFilePath, appData);
+                                // master items
+                                var masterMetricsFilePath = config.filenames.outputDir + config.filenames.masterMetrics_table;
+                                masterMetricsData.writeToFile(appId, masterMetricsFilePath, appData);
 
-                            // non master item metrics
-                            var nonMasterMetricsFilePath = config.filenames.outputDir + config.filenames.nonMasterMetrics_table;
-                            nonMasterMetricsData.writeToFile(nonMasterMetricsFilePath, appData);
+                                // non master item metrics
+                                var nonMasterMetricsFilePath = config.filenames.outputDir + config.filenames.nonMasterMetrics_table;
+                                nonMasterMetricsData.writeToFile(nonMasterMetricsFilePath, appData);
 
-                            // do metrics linking
-                            var visMasterMetricsFilePath = config.filenames.outputDir + config.filenames.visualizationsMasterMetrics_table;
-                            return masterMetricsData.writeLinkTableToFile(app, visMasterMetricsFilePath, appData);
+                                // do metrics linking
+                                var visMasterMetricsFilePath = config.filenames.outputDir + config.filenames.visualizationsMasterMetrics_table;
+                                return masterMetricsData.writeLinkTableToFile(app, visMasterMetricsFilePath, appData);
+                            });
+                        }).then(function () {
+                            finishedApps++;
+                            socket.emit("appMetaFetcher", "Finished processing app " + finishedApps + " of " + originalArray.length + ".");
                         });
-                    })
                 })
             }));
         });
