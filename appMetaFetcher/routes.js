@@ -7,7 +7,7 @@ var promise = require('bluebird');
 var qsocks = require('qsocks');
 var serializeApp = require('serializeapp');
 var qrsInteract = require('qrs-interact');
-var main = require('./main');
+var fetcherMain = require('./main');
 var socket = require('socket.io-client')('https://localhost:9945', {
     secure: true,
     reconnect: true
@@ -42,17 +42,20 @@ router.route('/fetch')
 
         fs.exists(exportPath, function (success) {
             if (!success) {
-                socket.emit("appMetaFetcher", "The path '" + exportPath + "' does not exist or you do not" +
-                    " have access to write to this location.");
+                socket.emit("appMetaFetcher", "\nThe path '" + exportPath + "' does not exist or you do not" +
+                    " have access to write to this location.\n");
                 response.sendStatus(400);
                 isRunning = false;
             } else {
                 socket.emit("appMetaFetcher", "Starting export of all metadata");
 
                 // do all the things
-                config['filenames']['outputDir'] = exportPath;
-                var main = new main(qsocks, serializeApp, qrsInteractInstance, config);
-
+                config['filenames']['outputDir'] = exportPath + '/';
+                var main = new fetcherMain(qsocks, serializeApp, qrsInteractInstance, config, socket);
+                main.then(function () {
+                    socket.emit("appMetaFetcher", "Export done, files can be found in: '" + exportPath + "'.\n");
+                    isRunning = false;
+                })
                 response.sendStatus(202);
             }
             return;
