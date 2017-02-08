@@ -82,7 +82,12 @@ var main = function main(qsocks, serializeApp, qrsInteract, config, socket) {
                         }).then(function () {
                             finishedApps++;
                             socket.emit("appMetaFetcher", "Finished processing app " + finishedApps + " of " + originalArray.length + ".");
-                        });
+                        }).catch(function(reason) {
+                            finishedApps++;
+                            socket.emit("appMetaFetcher", "Failed to process app " + finishedApps + " of " + originalArray.length + ".");
+                            socket.emit("appMetaFetcher", "\tApp ID: " + appId);
+                            socket.emit("appMetaFetcher", "\tReason: " + reason.message + " - " + reason.parameter);
+                    });
                 })
             }));
         });

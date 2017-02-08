@@ -14,7 +14,8 @@ var socket = require('socket.io-client')('https://localhost:9945', {
 });
 
 var qrsConfig = {
-    hostname: config.qsocks.host
+    hostname: config.qsocks.host,
+    localCertPath: config.certificates.certPath
 }
 var qrsInteractInstance = new qrsInteract(qrsConfig);
 
@@ -29,6 +30,14 @@ router.use(bodyParser.urlencoded({
 }));
 
 var isRunning = false;
+
+
+function canWrite(owner, inGroup, mode) {
+    return owner && (mode & 00200) || // User is owner and owner can write.
+        inGroup && (mode & 00020) || // User is in group and group can write.
+        (mode & 00002); // Anyone can write.
+
+}
 
 router.route('/fetch')
     .post(parseUrlencoded, function (request, response) {
@@ -47,16 +56,26 @@ router.route('/fetch')
                 response.sendStatus(400);
                 isRunning = false;
             } else {
-                socket.emit("appMetaFetcher", "Starting export of all metadata");
-
-                // do all the things
-                config['filenames']['outputDir'] = exportPath + '/';
-                var main = new fetcherMain(qsocks, serializeApp, qrsInteractInstance, config, socket);
-                main.then(function () {
-                    socket.emit("appMetaFetcher", "Export done, files can be found in: '" + exportPath + "'.\n");
+                try {
+                    socket.emit("appMetaFetcher", "Starting export of all metadata");
+                    // do all the things
+                    config['filenames']['outputDir'] = exportPath + '/';
+                    var main = new fetcherMain(qsocks, serializeApp, qrsInteractInstance, config, socket);
+                    main.then(function () {
+                        socket.emit("appMetaFetcher", "Export done, files can be found in: '" + exportPath + "'.\n");
+                        isRunning = false;
+                    })
+                    response.sendStatus(202);
+                } catch (err) {
+                    if (err.code = "EPERM") {
+                        socket.emit("appMetaFetcher", "\nYou do not have permission to write to: " + exportPath);
+                        socket.emit("appMetaFetcher", "\t" + err + "\n");
+                    } else {
+                        socket.emit("appMetaFetcher", "An error occurred: " + err + "\n");
+                    }
+                    socket.emit("appMetaFetcher", "Export not completed.\n");
                     isRunning = false;
-                })
-                response.sendStatus(202);
+                };
             }
             return;
         });
