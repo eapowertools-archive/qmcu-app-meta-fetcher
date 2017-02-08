@@ -14,7 +14,8 @@ var socket = require('socket.io-client')('https://localhost:9945', {
 });
 
 var qrsConfig = {
-    hostname: config.qsocks.host
+    hostname: config.qsocks.host,
+    localCertPath: config.certificates.certPath
 }
 var qrsInteractInstance = new qrsInteract(qrsConfig);
 
@@ -47,16 +48,25 @@ router.route('/fetch')
                 response.sendStatus(400);
                 isRunning = false;
             } else {
-                socket.emit("appMetaFetcher", "Starting export of all metadata");
+                fs.open(exportPath + 'tmp.tmp', 'wx', function (err, fd) {
+                    if (err) {
+                        socket.emit("appMetaFetcher", "\nYou do not have access to write to the path '" + exportPath + "'.\n");
+                        response.sendStatus(400);
+                        isRunning = false;
+                    } else {
+                        socket.emit("appMetaFetcher", "Starting export of all metadata");
 
-                // do all the things
-                config['filenames']['outputDir'] = exportPath + '/';
-                var main = new fetcherMain(qsocks, serializeApp, qrsInteractInstance, config, socket);
-                main.then(function () {
-                    socket.emit("appMetaFetcher", "Export done, files can be found in: '" + exportPath + "'.\n");
-                    isRunning = false;
-                })
-                response.sendStatus(202);
+                        // do all the things
+                        config['filenames']['outputDir'] = exportPath + '/';
+                        var main = new fetcherMain(qsocks, serializeApp, qrsInteractInstance, config, socket);
+                        main.then(function () {
+                            socket.emit("appMetaFetcher", "Export done, files can be found in: '" + exportPath + "'.\n");
+                            isRunning = false;
+                        })
+                        response.sendStatus(202);
+                    }
+                });
+
             }
             return;
         });
