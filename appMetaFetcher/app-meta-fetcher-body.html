@@ -1,8 +1,7 @@
 <div class="navbar-fixed-top group">
     <div id="page-content-header">
-        <h1 class="title">App Meta Fetcher</h1>
-        <button style="float:right;margin-right:20px;margin-top:20px;" class="lui-button  lui-button--toolbar-inverse" id="help-dialog"
-            ng-click="model.openHelp()">?</button>
+        <h1 class="title">App Meta Fetcher on: {{model.host}}</h1>
+        <button style="float:right;margin-right:20px;margin-top:20px;" class="lui-button  lui-button--toolbar-inverse" id="help-dialog" ng-click="model.openHelp()">?</button>
     </div>
 </div>
 <div id="page-content-body">
@@ -14,8 +13,7 @@
                         Folder location for meta-data output:
                     </div>
                     <div class="form-group" style="position:relative;padding-top:15px;padding-left:15px;padding-right:15px;height:50px;">
-                        <input type="text" class="lui-input" placeholder="enter valid folder location here" ng-model="model.exportPath" id="exportPath" name="exportPath"
-                        />
+                        <input type="text" class="lui-input" placeholder="enter valid folder location here" ng-model="model.exportPath" id="exportPath" name="exportPath" />
                     </div>
                 </div>
             </div>
@@ -26,8 +24,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="frame  lui-bg-default">
-                            <textarea readonly class="lui-textarea" ng-model="model.statusOutput" style="display: inline-block;width:100%;height: 240px;"
-                            />
+                            <textarea readonly class="lui-textarea" ng-model="model.statusOutput" style="display: inline-block;width:100%;height: 240px;" />
                         </div>
                     </div>
                 </div>
@@ -37,7 +34,6 @@
 </div>
 <div id="page-content-footer">
     <div id="button-bar">
-        <button id="triggerMetaFetcher" class="lui-button" ng-class="model.isTriggerButtonValid() ? 'lui-button--toolbar-inverse' : 'lui-disabled'"
-            ng-click="model.triggerMetaFetcher()">Generate GMA Data</button>
+        <button id="triggerMetaFetcher" class="lui-button" ng-class="model.isTriggerButtonValid() ? 'lui-button--toolbar-inverse' : 'lui-disabled'" ng-click="model.triggerMetaFetcher()">Generate GMA Data</button>
     </div>
 </div>

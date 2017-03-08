@@ -5,10 +5,11 @@
             return socketFactory();
         });
 
-    function appMetaFetcherBodyController($scope, $http, ngDialog, mySocket) {
+    function appMetaFetcherBodyController($scope, $http, ngDialog, mySocket, qmcuWindowLocationService) {
         var model = this;
         model.statusOutput = '';
         model.exportPath = 'C:\\Program Files\\Qlik\\Sense\\EAPowerTools\\GMAOutput';
+        model.host = qmcuWindowLocationService.host;
 
         mySocket.on("appMetaFetcher", function(msg) {
             model.statusOutput += msg + "\n";
@@ -39,7 +40,7 @@
         transclude: true,
         templateUrl: "plugins/appMetaFetcher/app-meta-fetcher-body.html",
         controllerAs: "model",
-        controller: ["$scope", "$http", "ngDialog", "mySocket", appMetaFetcherBodyController]
+        controller: ["$scope", "$http", "ngDialog", "mySocket", "qmcuWindowLocationService", appMetaFetcherBodyController]
     });
 
 }());
