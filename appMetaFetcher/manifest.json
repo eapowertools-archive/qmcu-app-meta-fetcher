@@ -2,5 +2,9 @@
     "title": "App Meta Fetcher",
     "pluginDir": "appMetaFetcher",
     "stage": "alpha",
-    "useSocketIO": true
+    "useSocketIO": true,
+    "clientFiles": [
+        "plugins/appMetaFetcher/appMetaFetcher.component.js",
+        "plugins/appMetaFetcher/css/appMetaFetcher.css"
+    ]
 }
