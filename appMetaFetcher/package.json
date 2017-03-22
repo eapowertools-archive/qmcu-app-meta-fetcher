@@ -30,7 +30,7 @@
     "extend": "^3.0.0",
     "fs": "0.0.2",
     "path": "^0.12.7",
-    "qrs-interact": "^1.0.0",
+    "qrs-interact": "^2.5.4",
     "qsocks": "^3.0.0",
     "serializeapp": "^2.0.0"
   },
