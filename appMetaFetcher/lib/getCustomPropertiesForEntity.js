@@ -7,7 +7,7 @@ var customProperties = {
             .then(function(result)
             {
                 var dataMatrix = [];
-                result.forEach(function(element) {
+                result.body.forEach(function(element) {
                     var app = element;
                     app['customProperties'].forEach(function(customProp){
                         var dataRow = [];

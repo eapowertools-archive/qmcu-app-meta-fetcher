@@ -7,7 +7,7 @@ var customPropertyDefs = {
             .then(function(result)
             {
                 var dataMatrix = [];
-                result.forEach(function(element) {
+                result.body.forEach(function(element) {
                     var dataRow = [];
                     dataRow.push(element['id']);
                     dataRow.push(element['name']);
